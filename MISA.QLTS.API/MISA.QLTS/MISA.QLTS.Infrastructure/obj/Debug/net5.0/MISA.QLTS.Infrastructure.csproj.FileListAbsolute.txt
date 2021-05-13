@@ -1,0 +1,15 @@
+C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Infrastructure\bin\Debug\net5.0\MISA.QLTS.Infrastructure.deps.json
+C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Infrastructure\bin\Debug\net5.0\MISA.QLTS.Infrastructure.dll
+C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Infrastructure\bin\Debug\net5.0\ref\MISA.QLTS.Infrastructure.dll
+C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Infrastructure\bin\Debug\net5.0\MISA.QLTS.Infrastructure.pdb
+C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Infrastructure\bin\Debug\net5.0\MISA.QLTS.Core.dll
+C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Infrastructure\bin\Debug\net5.0\MISA.QLTS.Core.pdb
+C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Infrastructure\obj\Debug\net5.0\MISA.QLTS.Infrastructure.csprojAssemblyReference.cache
+C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Infrastructure\obj\Debug\net5.0\MISA.QLTS.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Infrastructure\obj\Debug\net5.0\MISA.QLTS.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Infrastructure\obj\Debug\net5.0\MISA.QLTS.Infrastructure.AssemblyInfo.cs
+C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Infrastructure\obj\Debug\net5.0\MISA.QLTS.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Infrastructure\obj\Debug\net5.0\MISA.QLTS.Infrastructure.csproj.CopyComplete
+C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Infrastructure\obj\Debug\net5.0\MISA.QLTS.Infrastructure.dll
+C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Infrastructure\obj\Debug\net5.0\ref\MISA.QLTS.Infrastructure.dll
+C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Infrastructure\obj\Debug\net5.0\MISA.QLTS.Infrastructure.pdb
