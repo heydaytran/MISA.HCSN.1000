@@ -14,7 +14,12 @@
           </div>
 
           <div class="features-pane-right">
-            <div class="btn-add-asset btn features-pane-item" @click="showAddDialog('insert')">Thêm</div>
+            <div
+              class="btn-add-asset btn features-pane-item"
+              @click="showDialog('insert', 0)"
+            >
+              Thêm
+            </div>
             <div class="btn icon-refresh features-pane-item"></div>
             <div
               id="preventLeftClick"
@@ -42,7 +47,6 @@
           <thead>
             <tr>
               <th style="text-align: left">STT</th>
-              <th>Ngày ghi tăng</th>
               <th
                 sortProp="code"
                 sortOrder="asc"
@@ -93,21 +97,21 @@
           </thead>
 
           <tbody>
-            <tr v-for="(asset,index) in listAsset" :key="asset.assetId">
+            <tr v-for="(asset, index) in listAsset" :key="asset.assetId">
               <td class="no-border-left">{{ index + 1 }}</td>
-              <td>{{asset.increaseDate | formatDate(asset.increaseDate)}}</td>
               <td>{{ asset.assetCode }}</td>
               <td>{{ asset.assetName }}</td>
               <td>{{ asset.assetTypeName }}</td>
               <td>{{ asset.departmentName }}</td>
               <td style="text-align: right">
-                {{ formatMoney(asset.originalPrice) }}
+                {{ asset.originalPrice | formatMoney(asset.originalPrice) }}
               </td>
               <td class="no-border-right">
                 <div class="features-box">
                   <div
                     :id="'tableRow' + index + '_edit'"
                     class="table-icon icon-edit-pen"
+                    @click="showDialog('update',asset.assetId)"
                   ></div>
                   <div
                     id="preventLeftClick"
@@ -120,20 +124,15 @@
           </tbody>
         </table>
         <div class="ctx-menu" id="ctxMenu">
-          <div class="ctx-menu-item" >Thêm</div>
+          <div class="ctx-menu-item">Thêm</div>
           <div class="ctx-menu-item">Sửa</div>
-          <div
-            id="preventLeftClick"
-            class="ctx-menu-item"
-          >
-            Xóa
-          </div>
+          <div id="preventLeftClick" class="ctx-menu-item">Xóa</div>
         </div>
       </div>
 
       <div class="table-summary">
         <div class="summary">
-          <div class="asset-number">Tổng số tài sản: </div>
+          <div class="asset-number">Tổng số tài sản:</div>
           <div class="price-number">Tổng nguyên giá:</div>
         </div>
       </div>
@@ -142,7 +141,13 @@
       <!-- <BaseLoader /> -->
     </div>
 
-    <ModalCreateAsset ref="ModalCreateAsset_ref" />
+    <ModalCreateAsset
+      ref="ModalCreateAsset_ref"
+      :listDepartment="listDepartment"
+      :listAssetType="listAssetType"
+      :formMode="formMode"
+      :assetIdUpdate="assetIdUpdate"
+    />
     <ModalDeleteAsset />
   </div>
 </template>
@@ -171,6 +176,10 @@ export default {
         originalPrice: null,
         wearValue: null,
       },
+      listDepartment: [],
+      listAssetType: [],
+      formMode: '',
+      assetIdUpdate:null
     };
   },
   methods: {
@@ -190,6 +199,49 @@ export default {
           // debugger; // eslint-disable-line no-debugger
         });
     },
+
+    /// todo hiển thị dialog thêm
+    showDialog(text, Id) {
+      if (text == "insert") {
+        this.formMode = "insert";
+      } else {
+        this.formMode = "update";
+        this.assetIdUpdate = Id
+      }
+      setTimeout(() => {
+        this.$refs.ModalCreateAsset_ref.show();
+      }, 300);
+      // debugger; // eslint-disable-line no-debugger
+    },
+    /// todo lấy ra các phòng ban
+    async getDepartment() {
+      var res = this;
+      await axios
+        .get("https://localhost:44382/api/v1/Departments")
+        .then((response) => {
+          res.listDepartment = response.data.data;
+        })
+        .catch((error) => {
+          this.errorMessage = error.message;
+          console.error("GET Department Failed: ", error.message);
+        });
+    },
+
+    ///  todo lấy ra các loại tài sản
+    async getAssetType() {
+      var res = this;
+      await axios
+        .get("https://localhost:44382/api/v1/AssetTypes")
+        .then((response) => {
+          res.listAssetType = response.data.data;
+        })
+        .catch((error) => {
+          this.errorMessage = error.message;
+          console.error("GET AssetType Failed: ", error.message);
+        });
+    },
+  },
+  filters: {
     formatMoney: function (money) {
       if (Number.isInteger(money) == false) {
         console.log("Unable to convert to money: " + money);
@@ -198,32 +250,13 @@ export default {
       var num = money.toFixed(0).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
       return num;
     },
-
-    showAddDialog(text)
-    {
-      if(text == 'insert')
-      { 
-          this.$refs.ModalCreateAsset_ref.show()
-      }
-    }
-    
-  },
-  filters:{
-    formatDate(dateTime)
-    {
-     if(dateTime != null)
-     {
-        var date = dateTime.split('T')[0]
-      var child = date.split('-')
-      date = child[2]+'/'+child[1]+'/'+child[0];
-     }
-     else return "N/A"
-      return date
-
-    }
   },
   created() {
     this.getAsset();
+  },
+  mounted() {
+    this.getDepartment();
+    this.getAssetType();
   },
 };
 </script>
@@ -467,9 +500,9 @@ export default {
   height: calc(100% - 60px);
 }
 .content-nav .features-pane input {
-    font-style: italic;
+  font-style: italic;
 }
-table tr th{
+table tr th {
   white-space: nowrap;
 }
 </style>

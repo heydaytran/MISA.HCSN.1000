@@ -12,3 +12,17 @@ C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core
 C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\obj\Debug\net5.0\MISA.QLTS.Core.pdb
 C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\obj\Debug\net5.0\MISA.QLTS.Core.csproj.GenerateResource.cache
 C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\obj\Debug\net5.0\MISA.QLTS.Core.Resource.ResourceMessage.resources
+C:\Users\tvthinh\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\bin\Debug\net5.0\MISA.QLTS.Core.deps.json
+C:\Users\tvthinh\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\bin\Debug\net5.0\MISA.QLTS.Core.dll
+C:\Users\tvthinh\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\bin\Debug\net5.0\ref\MISA.QLTS.Core.dll
+C:\Users\tvthinh\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\bin\Debug\net5.0\MISA.QLTS.Core.pdb
+C:\Users\tvthinh\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\obj\Debug\net5.0\MISA.QLTS.Core.csprojAssemblyReference.cache
+C:\Users\tvthinh\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\obj\Debug\net5.0\MISA.QLTS.Core.Resource.ResourceMessage.resources
+C:\Users\tvthinh\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\obj\Debug\net5.0\MISA.QLTS.Core.csproj.GenerateResource.cache
+C:\Users\tvthinh\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\obj\Debug\net5.0\MISA.QLTS.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\tvthinh\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\obj\Debug\net5.0\MISA.QLTS.Core.AssemblyInfoInputs.cache
+C:\Users\tvthinh\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\obj\Debug\net5.0\MISA.QLTS.Core.AssemblyInfo.cs
+C:\Users\tvthinh\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\obj\Debug\net5.0\MISA.QLTS.Core.csproj.CoreCompileInputs.cache
+C:\Users\tvthinh\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\obj\Debug\net5.0\MISA.QLTS.Core.dll
+C:\Users\tvthinh\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\obj\Debug\net5.0\ref\MISA.QLTS.Core.dll
+C:\Users\tvthinh\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\obj\Debug\net5.0\MISA.QLTS.Core.pdb

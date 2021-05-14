@@ -3,7 +3,7 @@
     <div class="nav-item header">
       <div class="icon-nav logo-page" @click="toggleNavbar('icon')"></div>
       <div class="nav-item-text nav-title">QLTS.VN</div>
-      <div class="icon-hamburger-menu" @click="toggleNavbar()"></div>
+      <div class="icon-hamburger-menu" @click="toggleNavbar('no')"></div>
     </div>
     <div id="navItem1" class="nav-item option nav-item-icon">
       <div class="icon-nav icon-computer-line"></div>
@@ -76,6 +76,7 @@ export default {
       var iconSubmenu = document.getElementsByClassName("icon-submenu")
 
       if (text == "icon" && this.collapseNavbar == true) {
+        
         navbar.style.width = "210px"
         bodyRight.style.marginLeft =
           "210px";
@@ -96,7 +97,6 @@ export default {
           element.style.borderColor = "transparent transparent transparent white"
         }); 
       } else {
-        
         navbar.style.width = "60px"
         bodyRight.style.marginLeft =
           "60px";

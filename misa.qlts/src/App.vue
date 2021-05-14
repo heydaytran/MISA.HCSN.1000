@@ -1,26 +1,38 @@
 <template>
-      <div class="body-container">
+  <v-app>
+    <v-main>
+        <div class="body-container">
           <Navbar />
         <div class="body-right">
           <Header/>
-        <AssetManagement/>
+          <AssetManagement/>
         </div>
       </div>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-import Navbar from "./components/layout/TheNavbar.vue";
-import Header from "./components/layout/TheHeader.vue";
-import AssetManagement from "./components/dictionary/AssetManagement.vue";
+import Header from './components/layout/TheHeader.vue';
+import Navbar from './components/layout/TheNavbar.vue';
+import AssetManagement from './components/dictionary/AssetManagement.vue';
+
 export default {
-  name: "App",
+  name: 'App',
+
   components: {
-    Navbar,
     Header,
+    Navbar,
     AssetManagement
   },
+
+  data: () => ({
+    //
+  }),
 };
 </script>
+
+
 
 <style lang="scss">
 @font-face {
@@ -62,7 +74,6 @@ body {
 /* Track */
 ::-webkit-scrollbar-track {
   background: transparent;
-
   margin-top: 32px;
 }
 /* Handle */
@@ -76,7 +87,6 @@ body {
   background: rgb(131, 131, 131);
   /* filter: brightness(50%); */
 }
-
 .body-right{
   height: 100vh;
   width: calc(100% - 210px);
@@ -96,7 +106,6 @@ body {
 @import url("style/scss/input.scss");
 @import url("style/scss/table.scss");
 @import url("style/scss/modal.scss");
-
 .body-right {
     /* width: calc(100% - 210px); */
     /* float: left; */

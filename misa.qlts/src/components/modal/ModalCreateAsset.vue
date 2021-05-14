@@ -4,40 +4,33 @@
       <div class="modal-background"></div>
       <div class="modal-content">
         <div class="header">
-          <div class="title">Thêm mới tài sản</div>
+          <div v-if="formMode=='insert'" class="title">Thêm mới tài sản</div>
+          <div v-else class="title">Sửa tài sản</div>
 
           <div class="header-right">
             <div class="icon-help btn btn-help"></div>
-            <div
-              class="icon-cancel btn btn-close"
-              @click="$parent.toggleAddModal()"
-            ></div>
+            <div class="icon-cancel btn btn-close" @click="hide()"></div>
           </div>
         </div>
 
         <div class="content">
-          <div class="input-field">
-            <label for="">Mã tài sản (<span style="color: red">*</span>)</label>
+          <div class="input-field " @keyup="validateAssetCode()">
+            <label for="">Mã tài sản (<span>*</span>)</label>
             <input
               id="assetInput1"
-              
               type="text"
-              @keyup.enter="onClickBtnSubmit"
               maxlength="20"
               class="input-one-third"
-              validateRequired="true"
-              @keypress="handleKeypressNumberAndCharacter($event)"
-              @blur="validateCodeField('assetInput1')"
-              @keyup="onInputChangeRequired('assetInput1')"
+              v-model="asset.assetCode"
             />
 
-            <div id="assetInput1_warning" class="validate-warning">
+            <div id="assetInput1_warning" v-show="!asset.assetCode" class="validate-warning">
               Không được để trống
             </div>
           </div>
-          <div class="input-field">
+          <div class="input-field" >
             <label for=""
-              >Tên tài sản (<span style="color: red">*</span>)</label
+              >Tên tài sản (<span >*</span>)</label
             >
             <input
               id="assetInput2"
@@ -46,23 +39,23 @@
               class="input-two-third"
               type="text"
               name=""
-              @keyup.enter="onClickBtnSubmit"
-              @blur="onInputBlurRequired('assetInput2')"
-              @keyup="onInputChangeRequired('assetInput2')"
+              v-model="asset.assetName"
             />
-            <div id="assetInput2_warning" class="validate-warning">
+
+            <div id="assetInput2_warning" v-show="!asset.assetName"  class="validate-warning">
               Không được để trống
             </div>
           </div>
           <div class="clear-float"></div>
           <div class="input-field">
-            <label @click="this.setCursorDefault" for="">Mã phòng ban</label>
+            <label>Mã phòng ban</label>
             <v-autocomplete
               id="assetInput3"
               class="custom-autocomplete input-one-third"
-              :items="listDepartmentProp"
+              :items="listDepartment"
               item-value="departmentId"
               item-text="departmentCode"
+              v-model="asset.departmentId"
             ></v-autocomplete>
           </div>
           <div class="input-field">
@@ -72,7 +65,7 @@
               tabindex="-1"
               type="text"
               name=""
-              @keyup.enter="onClickBtnSubmit"
+              v-model="asset.departmentName"
             />
           </div>
           <div class="clear-float"></div>
@@ -81,9 +74,10 @@
             <v-autocomplete
               id="assetInput4"
               class="custom-autocomplete input-one-third"
-              :items="listAssetTypeProp"
+              :items="listAssetType"
               item-value="assetTypeId"
               item-text="assetTypeCode"
+              v-model="asset.assetTypeId"
             ></v-autocomplete>
           </div>
           <div class="input-field">
@@ -93,7 +87,7 @@
               tabindex="-1"
               type="text"
               name=""
-              @keyup.enter="onClickBtnSubmit"
+              v-model="asset.assetTypeName"
             />
           </div>
           <div class="clear-float"></div>
@@ -104,8 +98,8 @@
               class="input-one-third"
               type="text"
               name=""
-              @keyup.enter="onClickBtnSubmit"
               @keypress="handleKeyupOnlyNumber($event)"
+              v-model="asset.timeUse"
             />
           </div>
           <div class="input-field">
@@ -116,8 +110,8 @@
               maxlength="10"
               type="text"
               name=""
-              @keyup.enter="onClickBtnSubmit"
               @keypress="handleKeyupOnlyNumber($event)"
+              v-model="asset.wearRate"
             />
           </div>
           <div class="input-field">
@@ -129,10 +123,9 @@
               type="text"
               name=""
               style="text-align: right"
-              @keyup.enter="onClickBtnSubmit"
-              @keyup="onKeyupMoneyField('assetInput7')"
+              v-model="asset.originalPrice"
+              @keyup="formatMoney(asset.originalPrice)"
               @keypress="handleKeyupOnlyNumber($event)"
-              @focus="onFocusMoneyField($event)"
             />
           </div>
           <div class="clear-float"></div>
@@ -145,39 +138,15 @@
               class="input-one-third"
               type="text"
               name=""
-              @keyup.enter="onClickBtnSubmit"
-              @keypress="handleKeyupOnlyNumber($event)"
-              @focus="onFocusMoneyField($event)"
+               @keypress="handleKeyupOnlyNumber($event)"
+               v-model="asset.wearValue"
             />
           </div>
         </div>
         <div class="footer">
-          <div
-            class="btn btn-cancel"
-            tabindex="0"
-            @keyup.enter="$parent.toggleAddModal()"
-            @click="$parent.toggleAddModal()"
-          >
-            Hủy
-          </div>
-          <div
-            class="btn btn-save"
-            tabindex="0"
-            @click="onClickBtnSubmit"
-            @keyup.enter="onClickBtnSubmit"
-            v-if="isInserting"
-          >
-            Thêm
-          </div>
-          <div
-            class="btn btn-save"
-            tabindex="0"
-            @keyup.enter="onClickBtnSubmit"
-            @click="onClickBtnSubmit"
-            v-else
-          >
-            Lưu
-          </div>
+          <div class="btn btn-cancel" tabindex="0" @click="hide()">Hủy</div>
+
+          <div class="btn btn-save" tabindex="0">Lưu</div>
         </div>
       </div>
     </div>
@@ -185,24 +154,157 @@
 </template>
 
 <script>
+import axios from 'axios';
+export default {
+  props: {
+    listAssetType: Array,
+    listDepartment: Array,
+    formMode:String,
+    assetIdUpdate:String
+  },
+  data() {
+    return {
+      isActive: false,
+      asset:{
+          assetId: null,
+            assetCode:null,
+            assetName: null,
+            assetTypeId: null,
+            departmentId: null,
+            increaseDate: "2021-03-06T00:00:00",
+            timeUse: null,
+            wearRate: null,
+             originalPrice : null,
+             wearValue : null,
+             isUsed : false,
+             departmentName :  null ,
+             assetTypeName :  null ,
+             createdDate :  "0001-01-01T00:00:00" ,
+             createdBy : null,
+             modifiedDate :  "0001-01-01T00:00:00" ,
+             modifiedBy : null
+      },
+    };
+  },
+  methods: {
+    resetInput()
+    {
+             this.asset.assetId= null,
+            this.asset.assetCode=null,
+            this.asset.assetName= null,
+            this.asset.assetTypeId= null,
+            this.asset.departmentId= null,
+            this.asset.increaseDate= "2021-03-06T00=00=00",
+            this.asset.timeUse= null,
+            this.asset.wearRate= null,
+             this.asset.originalPrice = null,
+             this.asset.wearValue = null,
+             this.asset.isUsed = false,
+             this.asset.departmentName =  null ,
+             this.asset.assetTypeName =  null ,
+             this.asset.createdDate =  "0001-01-01T00=00=00" ,
+             this.asset.createdBy = null,
+             this.asset.modifiedDate =  "0001-01-01T00=00=00" ,
+             this.asset.modifiedBy = null
+    },
+  async  show() {
+    var res = this
+      this.isActive = true;
+      setTimeout(() => {
+        document.getElementById("assetInput1").focus();
+      }, 0);
+      document.getElementsByClassName("body-right")[0].style.zIndex = "999";
+      if( this.formMode == 'update')
+      {
+          await axios.get('https://localhost:44382/api/v1/Assets/'+ this.assetIdUpdate)
+          .then((Response)=>{
+            res.asset.departmentId = ''
+            res.asset = Response.data.data
+            console.log(res.asset, "data trả về sau khi gán");
+             console.log(Response.data.data, "data response")
+           // debugger; // eslint-disable-line no-debugger
+          })
+           .catch((error) => {
+          this.errorMessage = error.message;
+          console.error("GET Asset by id Failed: ", error.message);
+        });
+      }
+      else{
+        this.resetInput()
+      }
+    },
+    hide() {
+      this.isActive = false;
+      document.getElementsByClassName("body-right")[0].style.zIndex = "0";
+    },
+    getDepartmentName()
+    {
+      var res = this
+      console.log(this.listAssetType, "list deparment");
+      this.listDepartment.forEach(element => {
+        console.log(element.departmentId, "element.departmentId");
+        console.log(res.asset.departmentId,"res.asset.departmentId");
+        if(element.departmentId == res.asset.departmentId)
+        {
+          console.log("vaof ddideu kien roi");
+          res.asset.departmentName = element.departmentName
+        }
+      });
+    },
+     getAssetTypeName()
+    {
+      var res = this
+      this.listAssetType.forEach(element => {
+     
+        if(element.assetTypeId == res.asset.assetTypeId)
+        {
+          res.asset.assetTypeName = element.assetTypeName
+        }
+      });
+    },
+    validateAssetCode()
+    {
 
-export default ({
-   data(){
-       return{
-           isActive:false
-       }
-   },
-   methods:{
-     show()
-     {
-       this.isActive = true
-     },
-     hide()
-     {
-       this.isActive = false
-     }
-   }
-})
+    },
+    formatMoney(money)
+    {
+      money = parseInt(money).toFixed(0).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")
+     // debugger; // eslint-disable-line no-debugger
+      return money
+    },
+
+    
+/// todo chỉ cho phép nhập số
+    handleKeyupOnlyNumber(event) {
+      var accept = this.isNumber(event);
+      if (accept == false) {
+        event.preventDefault();
+      }
+    },
+/// todo kiểm tra có phải số hay không
+ isNumber: function (evt) {
+      evt = evt ? evt : window.event;
+      var charCode = evt.which ? evt.which : evt.keyCode;
+      if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+      }
+      return true;
+    },
+  
+  },
+  watch:{
+     "asset.departmentId":  function () {
+     this.getDepartmentName()
+    },
+     "asset.assetTypeId":  function () {
+     this.getAssetTypeName()
+    },
+  },
+  filters:{
+      
+  }
+
+};
 </script>
 
 
@@ -215,7 +317,6 @@ export default ({
   font-family: GoogleSans-Regular;
   font-size: 13px;
   color: red;
-  display: none;
   background-color: white;
   /* z-index: 22; */
   position: absolute;
