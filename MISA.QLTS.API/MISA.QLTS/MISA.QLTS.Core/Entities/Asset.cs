@@ -23,12 +23,14 @@ namespace MISA.QLTS.Core.Entities
         /// Mã tài sản
         /// </summary>
 
-
+        [Unique]
+        [Required]
         public string AssetCode { get; set; }
         /// <summary>
         /// Tên tài sản
         /// </summary>
-
+        
+        [Required]
         public string AssetName { get; set; }
         /// <summary>
         /// Loại tài sản

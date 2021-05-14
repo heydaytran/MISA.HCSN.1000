@@ -79,7 +79,7 @@ namespace MISA.QLTS.Core.Service
             string functionName = "Insert";
             
             // Validate nghiệp vụ
-            Validate(result, entity,  functionName);
+            Validate(result, entity, null, functionName);
 
             if (result.IsSuccess == true)
             {
@@ -113,7 +113,7 @@ namespace MISA.QLTS.Core.Service
 
             //Validate nghiệp vụ khi cập nhật
 
-            Validate(result, entity,  functionName);
+            Validate(result, entity, null ,  functionName);
 
             if (result.IsSuccess == true)
             {
@@ -165,47 +165,8 @@ namespace MISA.QLTS.Core.Service
         /// </summary>
         /// <param name="responseResult">Kết quả trả về xem có </param>
         /// <param name="entity"></param>
-        public virtual void Validate(ResponseResult responseResult, T entity,  string functionName)
+        public virtual void Validate(ResponseResult responseResult, T entity, Guid? entityID, string functionName)
         {
-            /* var properties = typeof(T).GetProperties();
-            foreach(var property in properties)
-            {
-                var propValue = property.GetValue(entity);
-
-                if(propValue == null || propValue.ToString() == string.Empty)
-                {
-                    // nếu là trường required thì đưa ra thông báo lỗi
-                    if(property.IsDefined(typeof(RequiredAttribute), true))
-                    {
-                        var displayName = property
-                            .GetCustomAttributes(typeof(RequiredAttribute), false)
-                            .OfType<DisplayAttribute>().FirstOrDefault();
-                        responseResult.IsSuccess = false;
-                        responseResult.ErrorCode = Enum.ErrorCode.BADREQUEST;
-                        responseResult.DevMsg = displayName.Name + " " + ResourceMessage.Error_Required;
-                        responseResult.UserMsg = displayName.Name + " " + ResourceMessage.Error_Required;
-                    }
-                }
-                else
-                {
-                    // kiểm tra xem trường nào là duy nhất (có thuộc tính Unique) thì check duplicate
-                    if(property.IsDefined(typeof(Unique), false))
-                    {
-                        bool checkDuplicateCode = _baseRespository.CheckDuplicateEntityCode(entity, entityID, functionName);
-                        if (checkDuplicateCode)
-                        {
-                            var displayName = property
-                            .GetCustomAttributes(typeof(Unique), false)
-                            .OfType<DisplayAttribute>().FirstOrDefault();
-                            responseResult.IsSuccess = false;
-                            responseResult.ErrorCode = Enum.ErrorCode.BADREQUEST;
-                            responseResult.DevMsg = displayName.Name + " " + ResourceMessage.Error_Duplicate;
-                            responseResult.UserMsg = displayName.Name + " " + ResourceMessage.Error_Duplicate;
-                        }
-                    }
-                }
-            }*/
-
 
         }
 
