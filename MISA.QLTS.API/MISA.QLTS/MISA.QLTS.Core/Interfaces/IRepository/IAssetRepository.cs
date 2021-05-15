@@ -13,6 +13,6 @@ namespace MISA.QLTS.Core.Interfaces
     /// author: TVThinh 12.05.2021
     public interface IAssetRepository : IBaseRepository<Asset>
     {
-        
+        public bool CheckStoreCode(Guid? assetId, string assetCode, string functionName);
     }
 }

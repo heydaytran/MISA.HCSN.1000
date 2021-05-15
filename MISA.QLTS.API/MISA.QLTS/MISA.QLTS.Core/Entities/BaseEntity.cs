@@ -11,23 +11,23 @@ using System.Threading.Tasks;
 /// </summary>
 namespace MISA.QLTS.Core.Entities
 {
-    /// <summary>
-    /// Đặc điểm bắt buộc
-    /// </summary>
-    public class Required : Attribute
-    {
+    ///// <summary>
+    ///// Đặc điểm bắt buộc
+    ///// </summary>
+    //public class Required : Attribute
+    //{
 
-    }
-    /// <summary>
-    /// Đặc điểm duy nhất
-    /// </summary>
-    public class Unique : Attribute
-    {
+    //}
+    ///// <summary>
+    ///// Đặc điểm duy nhất
+    ///// </summary>
+    //public class Unique : Attribute
+    //{
 
-    }
-    /// <summary>
-    /// Lớp cơ sở cho các model classes
-    /// </summary>
+    //}
+    ///// <summary>
+    ///// Lớp cơ sở cho các model classes
+    ///// </summary>
 
  
     public class BaseEntity
