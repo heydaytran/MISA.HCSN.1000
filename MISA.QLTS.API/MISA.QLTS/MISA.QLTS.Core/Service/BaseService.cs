@@ -113,7 +113,10 @@ namespace MISA.QLTS.Core.Service
 
             //Validate nghiệp vụ khi cập nhật
 
-            Validate(result, entity, null ,  functionName);
+            var IdPropetyName = entity.GetType().Name + "Id";
+            var IdPropetyValue = typeof(T).GetProperty(IdPropetyName).GetValue(entity);
+
+            Validate(result, entity, (Guid)IdPropetyValue,  functionName);
 
             if (result.IsSuccess == true)
             {

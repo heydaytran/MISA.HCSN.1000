@@ -8,10 +8,8 @@
           Bạn chắc chắn muốn xóa bản ghi này chứ?
         </div>
         <div class="modal-footer">
-          <div class="btn" @click="$parent.toggleDeleteModal">Hủy</div>
-          <div class="btn btn-confirm-delete" @click="this.confirmDelete">
-            Xóa
-          </div>
+          <div class="btn" @click="hide()">Hủy</div>
+          <div class="btn btn-confirm-delete" @click="confirmDelete()">Xóa</div>
         </div>
       </div>
     </div>
@@ -19,15 +17,41 @@
 </template>
 
 <script>
+import axios from "axios";
+export default {
+  props: {
+    assetIdUpdate: String,
+  },
+  data() {
+    return {
+      isActive: false,
+    };
+  },
+  methods: {
+    show() {
+      this.isActive = true;
+    },
 
+    hide() {
+      this.isActive = false;
+    },
 
-export default ({
-   data(){
-       return{
-           isActive:false
-       }
-   }
-})
+// todo xác nhận xóa bản ghi
+    async confirmDelete() {
+      await axios
+        .delete("https://localhost:44382/api/v1/assets/", this.assetIdUpdate)
+        .then((Response) => {
+          console.log(Response);
+          alert(Response.data.userMg);
+          this.hide()
+          this.$emit("reload", this.isActive)
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
+};
 </script>
 
 

@@ -3,7 +3,7 @@
     <div class="header-left">
       <div class="parent-section">Tài sản</div>
       <div class="icon-seperator"></div>
-      <div class="child-section">Ghi tăng</div>
+      <div class="child-section">Danh sách tài sản</div>
     </div>
 
     <div class="header-right">

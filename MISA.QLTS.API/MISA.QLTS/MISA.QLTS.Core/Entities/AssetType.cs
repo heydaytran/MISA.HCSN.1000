@@ -15,7 +15,7 @@ namespace MISA.QLTS.Core.Entities
         /// <summary>
         /// Khóa chính
         /// </summary>
-        public Guid AssetTypeId { get; set; }
+        public Guid? AssetTypeId { get; set; }
         /// <summary>
         /// Mã loại tài sản
         /// </summary>

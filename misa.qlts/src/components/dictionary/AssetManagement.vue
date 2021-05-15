@@ -8,7 +8,7 @@
               id="assetSearchBox"
               class="input-search"
               type="text"
-              placeholder="Tìm kiếm "
+              placeholder="Tìm kiếm theo tên, mã tài sản. "
             />
             <div class="icon-search"></div>
           </div>
@@ -97,7 +97,11 @@
           </thead>
 
           <tbody>
-            <tr v-for="(asset, index) in listAsset" :key="asset.assetId">
+            <tr v-for="(asset, index) in listAsset"
+             :key="asset.assetId"
+              @click="selectRow(asset.assetId)"
+              v-bind:class="selectedRow(asset.assetId) ? 'selected-row' : ''"
+             >
               <td class="no-border-left">{{ index + 1 }}</td>
               <td>{{ asset.assetCode }}</td>
               <td>{{ asset.assetName }}</td>
@@ -116,6 +120,7 @@
                   <div
                     id="preventLeftClick"
                     class="table-icon icon-trash-table"
+                    @click="showDeleteDialog(asset.assetId)"
                   ></div>
                   <div class="table-icon icon-refresh-time"></div>
                 </div>
@@ -147,8 +152,9 @@
       :listAssetType="listAssetType"
       :formMode="formMode"
       :assetIdUpdate="assetIdUpdate"
+      @reload="reload"
     />
-    <ModalDeleteAsset />
+    <ModalDeleteAsset @reload="reload" :assetIdUpdate="assetIdUpdate" ref="ModalDeleteAsset_ref"/>
   </div>
 </template>
 
@@ -179,7 +185,8 @@ export default {
       listDepartment: [],
       listAssetType: [],
       formMode: '',
-      assetIdUpdate:null
+      assetIdUpdate:null,
+      listSelectRow:[]
     };
   },
   methods: {
@@ -240,6 +247,41 @@ export default {
           console.error("GET AssetType Failed: ", error.message);
         });
     },
+
+    // todo tải lại dữ liệu
+    reload(value)
+    {
+      if( value == false)
+      {
+        this.getAsset()
+      }
+    },
+
+    //todo hiển thị form xác nhận xóa 
+    showDeleteDialog(id)
+    {
+      this.assetIdUpdate = id
+      this.$refs.ModalDeleteAsset_ref.show();
+      console.log(id);
+    },
+
+ //  select hàng, nếu hàng đã được select thì xóa khỏi mẩng listSelectRow, và ngược lại
+    selectRow(id) {
+      var index = this.listSelectRow.indexOf(id);
+      if (index > -1) {
+        this.listSelectRow.splice(index, 1);
+        return true;
+      } else {
+        this.listSelectRow.push(id);
+        return false;
+      }
+    },
+
+     // kiểm tra hàng đã được select hay chưa
+    selectedRow(id) {
+      if (this.listSelectRow.indexOf(id) > -1) return true;
+      else return false;
+    },
   },
   filters: {
     formatMoney: function (money) {
@@ -258,6 +300,7 @@ export default {
     this.getDepartment();
     this.getAssetType();
   },
+ 
 };
 </script>
 
@@ -504,5 +547,9 @@ export default {
 }
 table tr th {
   white-space: nowrap;
+}
+
+.selected-row {
+  background: red !important;
 }
 </style>

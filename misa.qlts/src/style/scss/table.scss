@@ -13,13 +13,17 @@ table thead tr th {
 }
 
 table tbody tr td {
-    /* border: 1px solid #eaeaea;*/
-    border: 1px solid #d6d6d6;
+    border-right: 1px solid #eaeaea;
+    border-bottom: 1px solid #d6d6d6;
     font-size: 14px;
     white-space: nowrap;
     max-width: 140px;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+table thead tr th {
+    border-bottom: 1px solid #d6d6d6;
 }
 
 th,

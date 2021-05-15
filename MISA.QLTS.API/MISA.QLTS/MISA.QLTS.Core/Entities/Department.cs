@@ -15,7 +15,7 @@ namespace MISA.QLTS.Core.Entities
         /// <summary>
         /// Khóa chính
         /// </summary>
-        public Guid DepartmentId { get; set; }
+        public Guid? DepartmentId { get; set; }
         /// <summary>
         /// Mã phòng ban
         /// </summary>
