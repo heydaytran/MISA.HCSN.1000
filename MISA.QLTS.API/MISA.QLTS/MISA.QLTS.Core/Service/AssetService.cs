@@ -1,5 +1,6 @@
 ﻿using MISA.QLTS.Core.Entities;
 using MISA.QLTS.Core.Interfaces;
+using MISA.QLTS.Core.Resource;
 using MISA.QLTS.Core.Result;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,32 @@ namespace MISA.QLTS.Core.Service
         {
             _unitOfWork = unitOfWork;
         }
+
+     
+
+        public ResponseResult GetEntitiesFilter(string input)
+        {
+            var entities = _unitOfWork.Asset.GetEntitiesFilter(input);
+        
+
+            var result = new ResponseResult();
+            if (entities != null)
+            {
+                result.Data = entities;
+                result.ErrorCode = Enum.ErrorCode.NONE;
+                result.UserMsg = ResourceMessage.Get_Success;
+            }
+            else
+            {
+                result.IsSuccess = false;
+                result.UserMsg = ResourceMessage.NotFound;
+                result.DevMsg = ResourceMessage.NoContent;
+                result.ErrorCode = Enum.ErrorCode.NOCONTENT;
+            }
+
+            return result;
+        }
+
         public override void Validate(ResponseResult responseResult, Asset entity, Guid? entityID, string functionName)
         {
             var propertyUnique = "Mã tài sản";

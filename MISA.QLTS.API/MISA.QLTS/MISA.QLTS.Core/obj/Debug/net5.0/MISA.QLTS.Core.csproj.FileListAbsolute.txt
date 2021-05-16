@@ -26,3 +26,17 @@ C:\Users\tvthinh\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\obj\De
 C:\Users\tvthinh\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\obj\Debug\net5.0\MISA.QLTS.Core.dll
 C:\Users\tvthinh\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\obj\Debug\net5.0\ref\MISA.QLTS.Core.dll
 C:\Users\tvthinh\Desktop\MISA.HCSN\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\obj\Debug\net5.0\MISA.QLTS.Core.pdb
+C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.HCSN.1000\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\bin\Debug\net5.0\MISA.QLTS.Core.deps.json
+C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.HCSN.1000\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\bin\Debug\net5.0\MISA.QLTS.Core.dll
+C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.HCSN.1000\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\bin\Debug\net5.0\ref\MISA.QLTS.Core.dll
+C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.HCSN.1000\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\bin\Debug\net5.0\MISA.QLTS.Core.pdb
+C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.HCSN.1000\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\obj\Debug\net5.0\MISA.QLTS.Core.csprojAssemblyReference.cache
+C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.HCSN.1000\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\obj\Debug\net5.0\MISA.QLTS.Core.Resource.ResourceMessage.resources
+C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.HCSN.1000\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\obj\Debug\net5.0\MISA.QLTS.Core.csproj.GenerateResource.cache
+C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.HCSN.1000\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\obj\Debug\net5.0\MISA.QLTS.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.HCSN.1000\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\obj\Debug\net5.0\MISA.QLTS.Core.AssemblyInfoInputs.cache
+C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.HCSN.1000\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\obj\Debug\net5.0\MISA.QLTS.Core.AssemblyInfo.cs
+C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.HCSN.1000\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\obj\Debug\net5.0\MISA.QLTS.Core.csproj.CoreCompileInputs.cache
+C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.HCSN.1000\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\obj\Debug\net5.0\MISA.QLTS.Core.dll
+C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.HCSN.1000\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\obj\Debug\net5.0\ref\MISA.QLTS.Core.dll
+C:\Users\Admin\OneDrive\Desktop\MISA.HCSN\MISA.HCSN.1000\MISA.QLTS.API\MISA.QLTS\MISA.QLTS.Core\obj\Debug\net5.0\MISA.QLTS.Core.pdb

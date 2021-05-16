@@ -9,7 +9,7 @@
       <div class="icon-nav icon-computer-line"></div>
       <div class="nav-item-text">Tổng quan</div>
     </div>
-    <div id="navItem2" class="nav-item option nav-item-icon option-focus">
+    <div id="navItem2" class="nav-item option nav-item-icon">
       <div class="icon-nav icon-community-line"></div>
       <div class="nav-item-text">Tài sản</div>
       <div class="icon-submenu">
@@ -33,7 +33,7 @@
         <div class="sub-navbar-item">Dụng cụ</div>
       </div>
     </div>
-    <div id="navItem4" class="nav-item option nav-item-icon">
+    <div id="navItem4" class="nav-item option nav-item-icon option-focus">
       <div class="icon-nav icon-common"></div>
       <div class="nav-item-text">Danh mục</div>
       <div class="icon-submenu">
@@ -245,6 +245,19 @@ export default {
     border-color: transparent transparent transparent white;
     position: absolute;
     right: 12px;
+}
+.nav .nav-item {
+    height: 48px;
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+    padding-left: 13px;
+    position: relative;
+}
+
+.nav-item:hover .icon-submenu
+{
+  border-color:transparent transparent transparent #00abfe;
 }
 
 </style>

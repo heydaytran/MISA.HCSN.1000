@@ -10,6 +10,7 @@ table thead tr th {
     position: sticky;
     top: 0px;
     background-color: white;
+    user-select: none;
 }
 
 table tbody tr td {

@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Error_Duplicate" xml:space="preserve">
-    <value>không được trùng</value>
+    <value>bị trùng</value>
   </data>
   <data name="Error_Filter" xml:space="preserve">
     <value>Có lỗi xảy ra khi lọc dữ liệu</value>

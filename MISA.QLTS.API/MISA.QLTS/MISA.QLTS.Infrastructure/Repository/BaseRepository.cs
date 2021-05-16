@@ -145,5 +145,7 @@ namespace MISA.QLTS.Infrastructure.Repository
         {
             _dbConnection.Dispose();
         }
+
+       
     }
 }

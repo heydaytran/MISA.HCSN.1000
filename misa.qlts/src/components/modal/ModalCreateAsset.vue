@@ -27,7 +27,7 @@
             />
 
             <div id="assetInput1_warning" class="validate-warning">
-              Không được để trống
+              Thông tin bắt buộc
             </div>
           </div>
           <div class="input-field">
@@ -43,7 +43,7 @@
             />
 
             <div id="assetInput2_warning" class="validate-warning">
-              Không được để trống
+              Thông tin bắt buộc
             </div>
           </div>
           <div class="clear-float"></div>
@@ -98,7 +98,7 @@
               class="input-one-third"
               type="text"
               name=""
-              @keypress="handleKeyupOnlyNumber($event)"
+              @keypress="formatNumber($event)"
               v-model="asset.timeUse"
             />
           </div>
@@ -110,7 +110,7 @@
               maxlength="10"
               type="text"
               name=""
-              @keypress="handleKeyupOnlyNumber($event)"
+              @keypress="formatNumber($event)"
               v-model="asset.wearRate"
             />
           </div>
@@ -123,9 +123,9 @@
               type="text"
               name=""
               style="text-align: right"
-              v-model="asset.originalPrice"
-              @keyup="formatMoney(asset.originalPrice)"
-              @keypress="handleKeyupOnlyNumber($event)"
+              :value="formatedMoney"
+              @keypress="formatNumber($event)"
+              @keyup="updateInput($event)"
             />
           </div>
           <div class="clear-float"></div>
@@ -138,7 +138,7 @@
               class="input-one-third"
               type="text"
               name=""
-              @keypress="handleKeyupOnlyNumber($event)"
+              @keypress="formatNumber($event)"
               v-model="asset.wearValue"
             />
           </div>
@@ -165,6 +165,7 @@ export default {
   data() {
     return {
       isActive: false,
+      isSuccess: true,
       asset: {
         assetId: null,
         assetCode: null,
@@ -201,9 +202,12 @@ export default {
         (this.asset.createdBy = null),
         (this.asset.modifiedBy = null);
     },
+    // todo hiện dialog
     async show() {
       var res = this;
       this.isActive = true;
+
+      // focus vào input đầu tiên( mã tài sản)
       setTimeout(() => {
         document.getElementById("assetInput1").focus();
       }, 0);
@@ -214,22 +218,33 @@ export default {
           .then((Response) => {
             res.asset.departmentId = "";
             res.asset = Response.data.data;
-            console.log(res.asset, "data trả về sau khi gán");
-            console.log(Response.data.data, "data response");
+
             // debugger; // eslint-disable-line no-debugger
           })
           .catch((error) => {
             this.errorMessage = error.message;
             console.error("GET Asset by id Failed: ", error.message);
           });
+
+          // convert ngyên giá sang string
+        var a = res.asset.originalPrice;
+        if (a == null) a = "";
+        else a = res.asset.originalPrice.toString();
+
+        res.asset.originalPrice = a;
+        //debugger; // eslint-disable-line no-debugger
       } else {
         this.resetInput();
       }
     },
+
+    // todo ẩn dialog
     hide() {
       this.isActive = false;
       document.getElementsByClassName("body-right")[0].style.zIndex = "0";
     },
+
+    // todo lấy dữ liệu tên phòng ban
     getDepartmentName() {
       var res = this;
       console.log(this.listAssetType, "list deparment");
@@ -237,11 +252,12 @@ export default {
         console.log(element.departmentId, "element.departmentId");
         console.log(res.asset.departmentId, "res.asset.departmentId");
         if (element.departmentId == res.asset.departmentId) {
-          console.log("vaof ddideu kien roi");
           res.asset.departmentName = element.departmentName;
         }
       });
     },
+
+    //todo lấy dữ liệu tên loại tài sản
     getAssetTypeName() {
       var res = this;
       this.listAssetType.forEach((element) => {
@@ -251,50 +267,50 @@ export default {
       });
     },
 
-    // todo định dạng tiền
+    // todo chỉ cho phép nhập số
+    formatNumber(e) {
+      var key = e.key;
+      if (!/^\d+/g.test(key)) {
+        e.preventDefault();
+      }
+    },
+
+    //todo định dạng kiểu tiền tệ
     formatMoney(money) {
-      money = parseInt(money)
-        .toFixed(0)
-        .replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
-      // debugger; // eslint-disable-line no-debugger
-      return money;
+      return money.replace(/\B(?=(\d{3})+(?!\d))/g, `,`);
     },
 
-    /// todo chỉ cho phép nhập số
-    handleKeyupOnlyNumber(event) {
-      var accept = this.isNumber(event);
-      if (accept == false) {
-        event.preventDefault();
-      }
+    // todo bỏ định dạng tiền tệ
+    removeFormatMoney(money) {
+      return money.replace(/\D+/g, "");
     },
 
-    /// todo kiểm tra có phải số hay không
-    isNumber: function (evt) {
-      evt = evt ? evt : window.event;
-      var charCode = evt.which ? evt.which : evt.keyCode;
-      if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-        return false;
-      }
-      return true;
+    // update input
+    updateInput(e) {
+      this.asset.originalPrice = this.removeFormatMoney(e.target.value);
     },
 
     // validate trống trường dữ liệu mã tài sản
     async validateAssetCode() {
-      var warning = document.getElementById("assetInput1_warning");
+      var warning = document.getElementById("assetInput1");
       if (this.asset.assetCode == null || this.asset.assetCode == "") {
-        warning.style.display = "block";
+        warning.style.border = "1px solid red";
+        warning.classList.add("hover-validate");
       } else {
-        warning.style.display = "none";
+        warning.style.border = "#e4e4e4 1px solid";
+        warning.classList.remove("hover-validate");
       }
     },
 
     // todo validate trường dữ liệu tên tài sản
     validateAssetName() {
-      var warning = document.getElementById("assetInput2_warning");
+      var warning = document.getElementById("assetInput2");
       if (this.asset.assetName == null || this.asset.assetName == "") {
-        warning.style.display = "block";
+        warning.style.border = "1px solid red";
+        warning.classList.add("hover-validate");
       } else {
-        warning.style.display = "none";
+        warning.style.border = "#e4e4e4 1px solid";
+        warning.classList.remove("hover-validate");
       }
     },
 
@@ -304,46 +320,57 @@ export default {
       this.validateAssetCode();
       var res = this;
 
-      if (this.asset.assetCode == "" || this.asset.assetName == "") {
+      if (this.asset.assetCode == null || this.asset.assetName == null) {
         return;
       } else {
         if (this.formMode == "insert") {
+          //nếu là form thêm dữ liệu
           res.asset.createDate = new Date(Date.now());
           console.log("đã vô else cbi gọi axios");
           console.log(this.asset, "dữ liệu cbi được thêm");
           await axios
             .post("https://localhost:44382/api/v1/assets/", this.asset)
             .then((respone) => {
-              console.log(respone, "respon nè");
-              console.log("đã vô axos");
-              alert(respone.data.userMsg);
-              console.log(respone.data.errorCode);
+              document.getElementById("assetInput1_warning").innerText =
+                respone.data.userMsg;
+              document.getElementById("assetInput1").style.border =
+                "1px solid red";
+              document
+                .getElementById("assetInput1")
+                .classList.add("hover-validate");
               if (respone.data.errorCode != 400) {
                 res.hide();
-                res.$emit("reload", res.isActive);
+                res.$emit("reload", true);
+              } else {
+                res.$emit("reload", false);
+                return;
               }
             })
             .catch((error) => {
+              res.$emit("reload", false);
               console.log(error);
+              alert("Có lỗi xảy ra, vui lòng liên hệ MISA để được trợ giúp")
             });
         } else {
+          // nếu là form sửa dữ liệu
           await axios
             .put("https://localhost:44382/api/v1/assets/", this.asset)
             .then((respone) => {
-              alert(respone.data.userMsg);
-              console.log(respone.data.errorCode);
               if (respone.data.errorCode != 400) {
                 res.hide();
-                res.$emit("reload", res.isActive);
+                res.$emit("reload", true);
+              } else {
+                res.$emit("reload", false);
               }
             })
             .catch((error) => {
               console.log(error);
+              res.$emit("reload", false);
+              alert("Có lỗi xảy ra, vui lòng liên hệ MISA để được trợ giúp!");
             });
         }
       }
     },
-
   },
   watch: {
     "asset.departmentId": function () {
@@ -351,6 +378,14 @@ export default {
     },
     "asset.assetTypeId": function () {
       this.getAssetTypeName();
+    },
+  },
+  computed: {
+    formatedMoney() {
+      var a = this.asset.originalPrice;
+      if (a == null || a == "") a = "";
+      else a = a.toString();
+      return this.formatMoney(a);
     },
   },
   filters: {},
@@ -458,5 +493,11 @@ export default {
 
 .validate-warning {
   display: none;
+}
+.hover-validate:hover ~ .validate-warning {
+  display: block;
+}
+.modal-content .header .title {
+  font-family: GoogleSans-Bold !important;
 }
 </style>

@@ -52,5 +52,7 @@ namespace MISA.QLTS.Core.Interfaces
         /// <returns>Số bản ghi đã xóa trong DB</returns>
         /// CreatedBy: TVThinh 12.05.2021
         ResponseResult Delete(Guid entityId);
+
+     
     }
 }

@@ -77,7 +77,7 @@ namespace MISA.QLTS.Core.Service
         {
             var result = new ResponseResult();
             string functionName = "Insert";
-            
+
             // Validate nghiệp vụ
             Validate(result, entity, null, functionName);
 
@@ -116,7 +116,7 @@ namespace MISA.QLTS.Core.Service
             var IdPropetyName = entity.GetType().Name + "Id";
             var IdPropetyValue = typeof(T).GetProperty(IdPropetyName).GetValue(entity);
 
-            Validate(result, entity, (Guid)IdPropetyValue,  functionName);
+            Validate(result, entity, (Guid)IdPropetyValue, functionName);
 
             if (result.IsSuccess == true)
             {
@@ -193,5 +193,6 @@ namespace MISA.QLTS.Core.Service
         {
 
         }
+
     }
 }

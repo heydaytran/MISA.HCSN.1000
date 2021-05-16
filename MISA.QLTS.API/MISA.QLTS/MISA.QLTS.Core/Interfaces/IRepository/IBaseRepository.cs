@@ -52,5 +52,6 @@ namespace MISA.QLTS.Core.Interfaces
         /// CreatedBy: TVThinh 12.05.2021
         int Delete(Guid entityId);
 
+  
     }
 }

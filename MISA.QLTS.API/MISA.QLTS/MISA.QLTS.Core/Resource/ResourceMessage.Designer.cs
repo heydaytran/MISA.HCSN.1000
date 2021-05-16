@@ -61,7 +61,7 @@ namespace MISA.QLTS.Core.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to không được trùng.
+        ///   Looks up a localized string similar to bị trùng.
         /// </summary>
         public static string Error_Duplicate {
             get {

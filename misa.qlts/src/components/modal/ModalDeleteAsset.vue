@@ -8,7 +8,7 @@
           Bạn chắc chắn muốn xóa bản ghi này chứ?
         </div>
         <div class="modal-footer">
-          <div class="btn" @click="hide()">Hủy</div>
+          <div class="btn" @click="hide()" >Hủy</div>
           <div class="btn btn-confirm-delete" @click="confirmDelete()">Xóa</div>
         </div>
       </div>
@@ -20,7 +20,7 @@
 import axios from "axios";
 export default {
   props: {
-    assetIdUpdate: String,
+    listSelectRow:Array
   },
   data() {
     return {
@@ -36,19 +36,43 @@ export default {
       this.isActive = false;
     },
 
-// todo xác nhận xóa bản ghi
-    async confirmDelete() {
-      await axios
-        .delete("https://localhost:44382/api/v1/assets/", this.assetIdUpdate)
-        .then((Response) => {
-          console.log(Response);
-          alert(Response.data.userMg);
-          this.hide()
-          this.$emit("reload", this.isActive)
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+// // todo xác nhận xóa bản ghi
+//     async confirmDelete() {
+//     await this.listSelectRow.forEach(element => {
+//          axios
+//         .delete("https://localhost:44382/api/v1/assets/" + element)
+//         .then((Response) => {
+//           console.log(Response,"response xoas nef");
+//           alert("Thao tác xóa thành công!");
+         
+//         })
+//         .catch((error) => {
+//           console.log(error);
+//         });
+//     });
+//     },
+
+     async confirmDelete() {
+      var res = this
+      for (var i = 0; i < this.listSelectRow.length; i++) {
+        await axios
+          .delete(
+            "https://localhost:44382/api/v1/Assets/" +
+            this.listSelectRow[i]
+          )
+          .then((Response) => {
+
+            console.log(Response);
+          })
+          .catch((err)=>{
+            console.log(err);
+            alert("Có lỗi xảy ra, vui lòng liên hệ MISA để được trợ giúp")
+            return
+          })
+      }
+      res.hide()
+      res.$emit("reload", true)
+
     },
   },
 };

@@ -2,6 +2,15 @@
   <div class="div-container content" id="content">
     <div class="div-container">
       <div class="content-nav">
+        <v-alert
+          id="success-dialog"
+          v-show="isSuccess"
+          color="green"
+          elevation="13"
+          type="success"
+          >Thao tác thành công!</v-alert
+        >
+
         <div class="features-pane">
           <div class="features-pane-left">
             <input
@@ -9,6 +18,8 @@
               class="input-search"
               type="text"
               placeholder="Tìm kiếm theo tên, mã tài sản. "
+              v-model="inputSearch"
+              @change="getAsset()"
             />
             <div class="icon-search"></div>
           </div>
@@ -20,10 +31,15 @@
             >
               Thêm
             </div>
-            <div class="btn icon-refresh features-pane-item"></div>
+
+            <div
+              @click="getAsset()"
+              class="btn icon-refresh features-pane-item"
+            ></div>
             <div
               id="preventLeftClick"
               class="btn icon-trash features-pane-item"
+              @click="showDeleteDialog()"
             ></div>
           </div>
         </div>
@@ -97,11 +113,12 @@
           </thead>
 
           <tbody>
-            <tr v-for="(asset, index) in listAsset"
-             :key="asset.assetId"
-              @click="selectRow(asset.assetId)"
+            <tr
+              v-for="(asset, index) in listAsset"
+              :key="asset.assetId"
               v-bind:class="selectedRow(asset.assetId) ? 'selected-row' : ''"
-             >
+              @click="selectRow(asset.assetId, $event)"
+            >
               <td class="no-border-left">{{ index + 1 }}</td>
               <td>{{ asset.assetCode }}</td>
               <td>{{ asset.assetName }}</td>
@@ -115,18 +132,24 @@
                   <div
                     :id="'tableRow' + index + '_edit'"
                     class="table-icon icon-edit-pen"
-                    @click="showDialog('update',asset.assetId)"
+                    @click="showDialog('update', asset.assetId)"
+                    title="Sửa"
                   ></div>
                   <div
                     id="preventLeftClick"
                     class="table-icon icon-trash-table"
-                    @click="showDeleteDialog(asset.assetId)"
+                    @click="showDeleteDialog()"
+                    title="Xóa"
                   ></div>
-                  <div class="table-icon icon-refresh-time"></div>
+                  <div class="table-icon icon-refresh-time" title="Chức năng chưa phát triển"></div>
                 </div>
               </td>
             </tr>
           </tbody>
+          <div v-if="getSuccess" class="loading-dialog">
+            <div class="icon-loading"></div>
+          </div>
+          <div v-if="getEmty" class="loading-emty">Không có dữ liệu</div>
         </table>
         <div class="ctx-menu" id="ctxMenu">
           <div class="ctx-menu-item">Thêm</div>
@@ -137,13 +160,12 @@
 
       <div class="table-summary">
         <div class="summary">
-          <div class="asset-number">Tổng số tài sản:</div>
-          <div class="price-number">Tổng nguyên giá:</div>
+          <div class="asset-number">Tổng số tài sản: {{amountAsset}}</div>
+          <div class="price-number">Tổng nguyên giá: {{totalPrice | formatMoney()}}</div>
         </div>
       </div>
 
       <div id="assetPopup"></div>
-      <!-- <BaseLoader /> -->
     </div>
 
     <ModalCreateAsset
@@ -154,7 +176,11 @@
       :assetIdUpdate="assetIdUpdate"
       @reload="reload"
     />
-    <ModalDeleteAsset @reload="reload" :assetIdUpdate="assetIdUpdate" ref="ModalDeleteAsset_ref"/>
+    <ModalDeleteAsset
+      @reload="reload"
+      :listSelectRow="listSelectRow"
+      ref="ModalDeleteAsset_ref"
+    />
   </div>
 </template>
 
@@ -184,9 +210,17 @@ export default {
       },
       listDepartment: [],
       listAssetType: [],
-      formMode: '',
-      assetIdUpdate:null,
-      listSelectRow:[]
+      formMode: "",
+      assetIdUpdate: null,
+      listSelectRow: [],
+      listAssetId: [],
+      inputSearch: "",
+      isSuccess: false,
+      isError: false,
+      getSuccess: true,
+      getEmty: false,
+      totalPrice:0,
+      amountAsset:0
     };
   },
   methods: {
@@ -196,14 +230,41 @@ export default {
      */
     async getAsset() {
       var res = this;
+      this.listSelectRow = [];
+      this.getSuccess = true;
+      this.getEmty = false;
+      this.amountAsset = 0
+      this.totalPrice = 0
       await axios
-        .get("https://localhost:44382/api/v1/Assets")
+        .get(
+          "https://localhost:44382/api/v1/Assets/Filter/?input=" +
+            res.inputSearch
+        )
         .then((response) => {
-          console.log("dữ liệu asset trả về là");
-          console.log("data ne");
-          console.log("data.data ne");
           res.listAsset = response.data.data;
+          if (res.listAsset.length == 0) {
+            res.getEmty = true;
+          }
+          res.getSuccess = false;
+          res.listAssetId = [];
+          res.listAsset.forEach((element) => {
+            res.listAssetId.push(element.assetId);
+            res.amountAsset++
+            if(element.originalPrice != null)
+            {
+               res.totalPrice += parseInt(element.originalPrice)
+              } 
+            
+            
+          });
           // debugger; // eslint-disable-line no-debugger
+        })
+        .catch((error) => {
+          console.log(error);
+          setTimeout(() => {
+            res.getSuccess = false;
+            res.getEmty = true;
+          }, 3000);
         });
     },
 
@@ -213,7 +274,7 @@ export default {
         this.formMode = "insert";
       } else {
         this.formMode = "update";
-        this.assetIdUpdate = Id
+        this.assetIdUpdate = Id;
       }
       setTimeout(() => {
         this.$refs.ModalCreateAsset_ref.show();
@@ -249,58 +310,133 @@ export default {
     },
 
     // todo tải lại dữ liệu
-    reload(value)
-    {
-      if( value == false)
-      {
-        this.getAsset()
+    reload(value) {
+      if (value == true) {
+        this.getAsset();
+        this.isSuccess = true;
+        setTimeout(() => {
+          this.isSuccess = false;
+        }, 6000);
       }
     },
 
-    //todo hiển thị form xác nhận xóa 
-    showDeleteDialog(id)
-    {
-      this.assetIdUpdate = id
+    //todo hiển thị form xác nhận xóa
+    showDeleteDialog() {
       this.$refs.ModalDeleteAsset_ref.show();
-      console.log(id);
     },
 
- //  select hàng, nếu hàng đã được select thì xóa khỏi mẩng listSelectRow, và ngược lại
-    selectRow(id) {
-      var index = this.listSelectRow.indexOf(id);
-      if (index > -1) {
-        this.listSelectRow.splice(index, 1);
-        return true;
-      } else {
+    //  select hàng, nếu hàng đã được select thì xóa khỏi mẩng listSelectRow, và ngược lại
+    selectRow(id, event) {
+      if (event.ctrlKey == false && event.shiftKey == false) {
+        this.listSelectRow = [];
         this.listSelectRow.push(id);
-        return false;
+      } else if (event.shiftKey) {
+        var idFirst = this.listSelectRow[0];
+        this.listSelectRow = [];
+        this.listSelectRow.push(idFirst);
+
+        // vị trí đầu tiên trong mảng listSelectRow
+        var idStart = this.listSelectRow[0];
+        var indexStart = this.listAssetId.indexOf(idStart);
+
+        var indexEnd = this.listAssetId.indexOf(id);
+        if (indexStart > indexEnd) {
+          indexStart--;
+          var tem = indexStart;
+          indexStart = indexEnd;
+          indexEnd = tem;
+        } else {
+          indexStart++;
+        }
+
+        for (var i = indexStart; i <= indexEnd; i++) {
+          this.listSelectRow.push(this.listAssetId[i]);
+        }
+      } else if (event.ctrlKey) {
+        var index = this.listSelectRow.indexOf(id);
+        if (index > -1) {
+          this.listSelectRow.splice(index, 1);
+        } else {
+          this.listSelectRow.push(id);
+        }
       }
+
+      console.log(event.keyCode, "các sự kiện keycode là");
     },
 
-     // kiểm tra hàng đã được select hay chưa
+    // kiểm tra hàng đã được select hay chưa
     selectedRow(id) {
       if (this.listSelectRow.indexOf(id) > -1) return true;
       else return false;
     },
+
+    // todo xử lý sự kiện mũi tên lên xuống để select row
+    processkey() {
+      var res = this;
+      window.addEventListener("keydown", function (e) {
+        var len1 = res.listSelectRow.length; // số phần tử của mảng listSelectRow
+        var len2 = res.listAssetId.length; //số phần tử của mảng listAssetId
+        switch (e.keyCode) {
+          case 38:
+            {
+              //up arrow
+              if (
+                len1 == 0 ||
+                res.listAssetId.indexOf(res.listSelectRow[0]) == 0
+              ) {
+                res.listSelectRow = [];
+                res.listSelectRow.push(res.listAssetId[len2 - 1]);
+              } else if (len1 > 0) {
+                //res.listSelectRow = [];
+                var indexIdFirst = res.listAssetId.indexOf(
+                  res.listSelectRow[0]
+                );
+                res.listSelectRow = [];
+                res.listSelectRow.push(res.listAssetId[indexIdFirst - 1]);
+              }
+            }
+            break;
+          case 40:
+            {
+              // //down arrow
+              if (
+                len1 == 0 ||
+                res.listAssetId.indexOf(res.listSelectRow[len1 - 1]) == len2 - 1
+              ) {
+                res.listSelectRow.push(res.listAssetId[0]);
+              } else if (len1 > 0) {
+                //res.listSelectRow = [];
+                var indexIdLast = res.listAssetId.indexOf(
+                  res.listSelectRow[len1 - 1]
+                );
+                res.listSelectRow = [];
+                res.listSelectRow.push(res.listAssetId[indexIdLast + 1]);
+              }
+            }
+            break;
+          default: {
+            return true;
+          }
+        }
+      });
+    },
   },
   filters: {
     formatMoney: function (money) {
-      if (Number.isInteger(money) == false) {
-        console.log("Unable to convert to money: " + money);
-        return "N/A";
-      }
+     if(money != null)
       var num = money.toFixed(0).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
+      else return "0"
       return num;
     },
   },
   created() {
     this.getAsset();
+    this.processkey();
   },
   mounted() {
     this.getDepartment();
     this.getAssetType();
   },
- 
 };
 </script>
 
@@ -475,6 +611,7 @@ export default {
   margin-left: 210px;
   transition: all 0.25s;
   background-color: white;
+  user-select: none;
 }
 
 .content-nav {
@@ -551,5 +688,68 @@ table tr th {
 
 .selected-row {
   background: red !important;
+}
+
+.v-sheet.v-alert {
+  position: absolute;
+  z-index: 2;
+  right: 0px;
+  top: 119px;
+  animation-name: alert;
+  width: 0px;
+  animation-duration: 4s;
+  white-space: nowrap;
+  padding: 16px 0px;
+}
+
+@keyframes alert {
+  0% {
+    width: 0px;
+  }
+  50% {
+    width: 200px;
+    padding: 16px;
+  }
+  100% {
+    width: 0px;
+    animation-duration: 2s;
+    padding: 16px 0px;
+  }
+}
+
+.loading-dialog {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  opacity: 0.5;
+  top: 34px;
+  background: black;
+  display: flex;
+  align-items: center;
+}
+
+.loading-dialog .icon-loading {
+  background-image: url("../../assets/UI/Icon/loading.svg");
+  height: 80px;
+  width: 80px;
+  background-size: contain;
+  margin: auto;
+}
+.loading-emty {
+  font-weight: bold;
+  width: inherit;
+  display: flex;
+  height: 138px;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  position: absolute;
+  top: 0;
+}
+table tbody tr td {
+    font-family: 'GoogleSans';
+}
+.summary{
+  display: flex;
 }
 </style>

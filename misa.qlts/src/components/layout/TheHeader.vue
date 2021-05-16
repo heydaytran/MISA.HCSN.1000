@@ -1,9 +1,9 @@
 <template>
   <div class="div-container header" id="header">
     <div class="header-left">
-      <div class="parent-section">Tài sản</div>
+      <div class="parent-section">Danh mục</div>
       <div class="icon-seperator"></div>
-      <div class="child-section">Danh sách tài sản</div>
+      <div class="child-section">Tài sản</div>
     </div>
 
     <div class="header-right">

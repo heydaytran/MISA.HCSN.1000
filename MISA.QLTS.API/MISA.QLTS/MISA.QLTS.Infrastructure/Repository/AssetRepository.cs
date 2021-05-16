@@ -43,7 +43,16 @@ namespace MISA.QLTS.Infrastructure.Repository
             return false;
         }
 
-        
+        public IEnumerable<Asset> GetEntitiesFilter(string input)
+        {
+            var query = "SELECT * FROM Asset_Type_Department WHERE AssetCode LIKE '%" + input + "%' " +
+                "or  AssetName LIKE '%" + input + "%' order by CreatedDate Desc";
+            // Thực hiện lấy dữ liệu từ Database
+            var entities = _dbConnection.Query<Asset>(
+                query,
+                commandType: CommandType.Text);
 
+            return entities;
+        }
     }
 }
