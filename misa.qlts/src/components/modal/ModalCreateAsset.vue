@@ -174,7 +174,7 @@ export default {
         departmentId: null,
         timeUse: null,
         wearRate: null,
-        originalPrice: null,
+        originalPrice: "",
         wearValue: null,
         isUsed: false,
         departmentName: null,
@@ -319,15 +319,14 @@ export default {
       this.validateAssetName();
       this.validateAssetCode();
       var res = this;
+      if(res.asset.originalPrice == "") res.asset.originalPrice = null
 
-      if (this.asset.assetCode == null || this.asset.assetName == null) {
+      if (this.asset.assetCode == null || this.asset.assetName == null || this.asset.assetCode == "" || this.asset.assetName == "") {
         return;
       } else {
         if (this.formMode == "insert") {
           //nếu là form thêm dữ liệu
           res.asset.createDate = new Date(Date.now());
-          console.log("đã vô else cbi gọi axios");
-          console.log(this.asset, "dữ liệu cbi được thêm");
           await axios
             .post("https://localhost:44382/api/v1/assets/", this.asset)
             .then((respone) => {
@@ -353,6 +352,7 @@ export default {
             });
         } else {
           // nếu là form sửa dữ liệu
+          
           await axios
             .put("https://localhost:44382/api/v1/assets/", this.asset)
             .then((respone) => {
@@ -384,7 +384,7 @@ export default {
     formatedMoney() {
       var a = this.asset.originalPrice;
       if (a == null || a == "") a = "";
-      else a = a.toString();
+     else  a = a.toString();
       return this.formatMoney(a);
     },
   },

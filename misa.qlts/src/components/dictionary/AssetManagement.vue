@@ -141,12 +141,18 @@
                     @click="showDeleteDialog()"
                     title="Xóa"
                   ></div>
-                  <div class="table-icon icon-refresh-time" title="Chức năng chưa phát triển"></div>
+                  <div
+                    class="table-icon icon-refresh-time"
+                    title="Chức năng chưa phát triển"
+                  ></div>
                 </div>
               </td>
             </tr>
           </tbody>
           <div v-if="getSuccess" class="loading-dialog">
+            <div class="icon-loading"></div>
+          </div>
+          <div v-if="!isSuccess" class="loading-dialog-execu">
             <div class="icon-loading"></div>
           </div>
           <div v-if="getEmty" class="loading-emty">Không có dữ liệu</div>
@@ -160,8 +166,10 @@
 
       <div class="table-summary">
         <div class="summary">
-          <div class="asset-number">Tổng số tài sản: {{amountAsset}}</div>
-          <div class="price-number">Tổng nguyên giá: {{totalPrice | formatMoney()}}</div>
+          <div class="asset-number">Tổng số tài sản: {{ amountAsset }}</div>
+          <div class="price-number">
+            Tổng nguyên giá: {{ totalPrice | formatMoney() }}
+          </div>
         </div>
       </div>
 
@@ -219,8 +227,8 @@ export default {
       isError: false,
       getSuccess: true,
       getEmty: false,
-      totalPrice:0,
-      amountAsset:0
+      totalPrice: 0,
+      amountAsset: 0,
     };
   },
   methods: {
@@ -233,8 +241,8 @@ export default {
       this.listSelectRow = [];
       this.getSuccess = true;
       this.getEmty = false;
-      this.amountAsset = 0
-      this.totalPrice = 0
+      this.amountAsset = 0;
+      this.totalPrice = 0;
       await axios
         .get(
           "https://localhost:44382/api/v1/Assets/Filter/?input=" +
@@ -247,23 +255,20 @@ export default {
           }
           res.getSuccess = false;
           res.listAssetId = [];
-          res.listAsset.forEach((element) => {
-            res.listAssetId.push(element.assetId);
-            res.amountAsset++
-            if(element.originalPrice != null)
-            {
-               res.totalPrice += parseInt(element.originalPrice)
-              } 
-            
-            
+          res.listAsset.forEach((element) => { // duyệt qua tất cả các bản ghi
+            res.listAssetId.push(element.assetId); // push tất cả id tài sản vào mảng
+            res.amountAsset++; // đếm tổng số bản ghi
+            if (element.originalPrice != null) {
+              res.totalPrice += parseInt(element.originalPrice); // tính tổng nguyên giá
+            }
           });
           // debugger; // eslint-disable-line no-debugger
         })
         .catch((error) => {
           console.log(error);
           setTimeout(() => {
-            res.getSuccess = false;
-            res.getEmty = true;
+            res.getSuccess = false; // tắt dialog loading
+            res.getEmty = true;  // b
           }, 3000);
         });
     },
@@ -423,9 +428,9 @@ export default {
   },
   filters: {
     formatMoney: function (money) {
-     if(money != null)
-      var num = money.toFixed(0).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
-      else return "0"
+      if (money != null)
+        var num = money.toFixed(0).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.");
+      else return "0";
       return num;
     },
   },
@@ -747,9 +752,9 @@ table tr th {
   top: 0;
 }
 table tbody tr td {
-    font-family: 'GoogleSans';
+  font-family: "GoogleSans";
 }
-.summary{
+.summary {
   display: flex;
 }
 </style>
